@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="35" android:compileSdkVersionCodename="15" package="com.JD.ZDFcar" platformBuildVersionCode="35" platformBuildVersionName="15" android:versionCode="110" android:versionName="1.1.0">
+    <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON"/>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="com.asus.msa.SupplementaryDID.ACCESS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <application android:allowBackup="false" android:allowClearUserData="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:debuggable="false" android:extractNativeLibs="true" android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name" android:largeHeap="true" android:name="io.dcloud.application.DCloudApplication" android:supportsRtl="true" android:usesCleartextTraffic="true">
+        <activity android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|fontScale" android:exported="true" android:hardwareAccelerated="true" android:label="@string/app_name" android:name="io.dcloud.PandoraEntry" android:screenOrientation="user" android:theme="@style/DCloudTranslucentTheme" android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+        </activity>
+        <activity android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale" android:exported="false" android:hardwareAccelerated="true" android:label="@string/app_name" android:launchMode="singleTask" android:name="io.dcloud.PandoraEntryActivity" android:screenOrientation="landscape" android:theme="@style/DCloudActivityTheme" android:windowSoftInputMode="adjustResize"/>
+        <meta-data android:name="DCLOUD_APP_DEFAULT_LANGUAGE" android:value="zh-Hans"/>
+        <meta-data android:name="DCLOUD_STREAMAPP_CHANNEL" android:value="com.JD.ZDFcar|__UNI__FB0AA52|120361050209|common"/>
+        <meta-data android:name="android.notch_support" android:value="true"/>
+        <meta-data android:name="notch.config" android:value="portrait"/>
+        <meta-data android:name="android.max_aspect" android:value="2.5"/>
+        <receiver android:enabled="true" android:exported="false" android:name="com.taobao.weex.WXGlobalEventReceiver"/>
+        <activity android:configChanges="keyboardHidden|orientation" android:exported="false" android:name="io.dcloud.feature.nativeObj.photoview.PhotoActivity" android:noHistory="false" android:screenOrientation="behind" android:theme="@style/DCloudTheme.Light"/>
+        <activity android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|fontScale" android:hardwareAccelerated="true" android:icon="@drawable/dcloud_recent" android:label="@string/stream_my" android:launchMode="singleTask" android:name="io.dcloud.WebAppActivity" android:screenOrientation="portrait" android:theme="@style/DCloudTheme" android:windowSoftInputMode="adjustResize"/>
+        <activity android:excludeFromRecents="true" android:exported="false" android:name="io.dcloud.ProcessMediator" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:exported="false" android:name="io.dcloud.WebviewActivity" android:screenOrientation="portrait" android:theme="@style/AppCompat.ThemeNoTitleBar" android:windowSoftInputMode="adjustPan"/>
+        <activity android:configChanges="orientation|screenSize" android:exported="false" android:name="com.dmcbig.mediapicker.PickerActivity" android:theme="@style/DeviceDefault.Light" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:configChanges="orientation|screenSize" android:exported="false" android:name="com.dmcbig.mediapicker.PreviewActivity" android:theme="@style/DeviceDefault.Light" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <provider android:authorities="com.JD.ZDFcar.dc.fileprovider" android:exported="false" android:grantUriPermissions="true" android:name="io.dcloud.common.util.DCloud_FileProvider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/dcloud_file_provider"/>
+        </provider>
+        <activity android:configChanges="keyboardHidden|orientation|screenSize" android:exported="false" android:name="io.dcloud.feature.gallery.imageedit.IMGEditActivity" android:theme="@style/ImageEditTheme" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:exported="false" android:name="io.dcloud.sdk.activity.WebViewActivity" android:screenOrientation="portrait" android:theme="@style/ThemeNoTitleBar" android:windowSoftInputMode="adjustPan"/>
+        <service android:exported="false" android:name="io.dcloud.sdk.base.service.DownloadService" android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <provider android:authorities="com.JD.ZDFcar.dc.fileprovider" android:exported="false" android:grantUriPermissions="true" android:name="io.dcloud.sdk.base.service.provider.DCloudAdFileProvider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/dcloud_gg_file_provider"/>
+        </provider>
+        <meta-data android:name="com.facebook.soloader.enabled" android:value="false"/>
+    </application>
+</manifest>

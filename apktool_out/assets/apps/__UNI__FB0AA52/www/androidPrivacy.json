@@ -1,0 +1,38 @@
+{
+  "version": "1",
+  "prompt": "template",
+  "title": "Terms and Privacy Policy",
+  "message": "Please read and understand the Terms and Privacy Policy. This app needs Bluetooth access to scan for and connect to the car. On Android, Location may be required for BLE scanning, but the app does not use your location data.<br/>Read the <a href=\"static\\htmls\\privacy_cn.html\">Privacy Policy</a>. Tap accept to continue.",
+  "buttonAccept": "Agree and Continue",
+  "buttonRefuse": "Not Now",
+  "hrefLoader": "system|default",
+  "backToExit": "false",
+  "second": {
+    "title": "Confirmation",
+    "message": "You need to agree to the <a href=\"static\\htmls\\privacy_cn.html\">Privacy Policy</a> before using the app.",
+    "buttonAccept": "Agree and Continue",
+    "buttonRefuse": "Exit App"
+  },
+  "disagreeMode": {
+    "support": false,
+    "loadNativePlugins": false,
+    "visitorEntry": false,
+    "showAlways": true
+  },
+  "styles": {
+    "backgroundColor": "#fff",
+    "borderRadius": "5px",
+    "title": {
+      "color": "#000000"
+    },
+    "buttonAccept": {
+      "color": "#00ffff"
+    },
+    "buttonRefuse": {
+      "color": "#e32519"
+    },
+    "buttonVisitor": {
+      "color": "#00ffaa"
+    }
+  }
+}
