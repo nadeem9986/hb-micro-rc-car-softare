@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="35" android:compileSdkVersionCodename="15" package="com.JD.ZDFcar" platformBuildVersionCode="35" platformBuildVersionName="15" android:versionCode="110" android:versionName="1.1.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="35" android:compileSdkVersionCodename="15" package="com.JD.ZDFcar" platformBuildVersionCode="35" platformBuildVersionName="15" android:versionCode="120" android:versionName="1.2.0">
     <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
