@@ -127,6 +127,11 @@ service = service.replace(
   /num_speed:\d,img_speed:"\/static\/btn_speed\d\.png",speedMode:"[01]{2}"/,
   'num_speed:3,img_speed:"/static/btn_speed3.png",speedMode:"00"'
 );
+service = service.replace(/device:"HB TOYS64",is4Chan:!1/g, 'device:"HB TOYS64",is4Chan:!0');
+service = service.replace(/this\.is4Chan=r\.globalData\.is4Chan/g, "this.is4Chan=!0");
+service = service.replace(/remote",{attrs:{ble_on:t\.ble_on,/g, 'remote",{attrs:{is4Chan:!0,ble_on:t.ble_on,');
+service = service.replace(/style:t\._\$s\(1,"s",t\.is4Chan\?"":"justify-content:center;align-items: center;"\)/g, 'style:t._$s(1,"s","")');
+service = service.replace(/value:t\._\$s\(5,"v-show",t\.is4Chan\),expression:"_\$s\(5,'v-show',is4Chan\)"/g, 'value:!0,expression:"true"');
 
 const switchStart = service.indexOf("switchSpeed:function(){");
 const cruiseMarker = "},cruiseEnd:function";
@@ -160,14 +165,14 @@ const microDriftCss = `
 ${styleMarker}
 :root{--md-green:#16df51;--md-green2:#08b941;--md-ink:#111925;--md-muted:#617084;--md-line:#cddbe8;--md-panel:#f8fcff;--md-panel2:#edf6fc}
 body{background:#eaf4fb!important}
-.bgcImg,.content,.content[data-v-080eb564]{width:100vw!important;height:100vh!important;background:linear-gradient(180deg,#f8fcff 0%,#eaf4fb 100%)!important;color:var(--md-ink)!important;font-family:Arial,"Segoe UI",sans-serif!important;overflow:hidden!important}
+.bgcImg,.content,.content[data-v-080eb564]{width:100vw!important;height:100vh!important;background-color:#f8fcff!important;background-repeat:no-repeat!important;background-size:100% 100%!important;color:var(--md-ink)!important;font-family:Arial,"Segoe UI",sans-serif!important;overflow:hidden!important}
 .content:before{content:"";position:fixed;inset:calc(18 * 100 / var(--base-rpx) * 1vmin);border-radius:calc(28 * 100 / var(--base-rpx) * 1vmin);background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(238,247,253,.88));border:1px solid rgba(180,199,216,.7);box-shadow:0 calc(18 * 100 / var(--base-rpx) * 1vmin) calc(55 * 100 / var(--base-rpx) * 1vmin) rgba(65,86,106,.18),inset 0 1px 0 rgba(255,255,255,.95);pointer-events:none;z-index:0}
 .content .box,.content .box[data-v-080eb564]{position:relative!important;z-index:1!important;height:100vh!important;background:transparent!important;overflow:hidden!important}
 .content .box:before{content:"MICRO DRIFT";position:fixed;left:calc(50 * 100 / var(--base-rpx) * 1vmin);top:calc(40 * 100 / var(--base-rpx) * 1vmin);z-index:1000;color:#101925;font-size:calc(42 * 100 / var(--base-rpx) * 1vmin);font-weight:900;font-style:italic;letter-spacing:0;text-shadow:0 1px 0 #fff;pointer-events:none}
 .content .box:after{content:"SMALL SIZE. BIG THRILLS.";position:fixed;left:calc(54 * 100 / var(--base-rpx) * 1vmin);top:calc(88 * 100 / var(--base-rpx) * 1vmin);z-index:1000;color:#6a7889;font-size:calc(13 * 100 / var(--base-rpx) * 1vmin);font-weight:700;letter-spacing:.42em;pointer-events:none}
 .content .box .controlButton,.content .controlButton[data-v-080eb564]{position:absolute!important;top:calc(22 * 100 / var(--base-rpx) * 1vmin)!important;left:calc(30 * 100 / var(--base-rpx) * 1vmin)!important;right:calc(30 * 100 / var(--base-rpx) * 1vmin)!important;width:auto!important;height:calc(118 * 100 / var(--base-rpx) * 1vmin)!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;background:transparent!important;border:0!important;box-shadow:none!important;z-index:999!important}
 .content .box .controlButton .left,.content .controlButton .left[data-v-080eb564]{width:calc(315 * 100 / var(--base-rpx) * 1vmin)!important;height:calc(86 * 100 / var(--base-rpx) * 1vmin)!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;border-radius:calc(18 * 100 / var(--base-rpx) * 1vmin)!important;overflow:visible!important;background:url(/static/logo.png) left center/contain no-repeat!important;border:0!important;box-shadow:none!important}
-.content .box .controlButton .left .icon-img,.content .controlButton .left .icon-img[data-v-080eb564]{width:calc(310 * 100 / var(--base-rpx) * 1vmin)!important;height:calc(82 * 100 / var(--base-rpx) * 1vmin)!important;object-fit:contain!important;opacity:0!important}
+.content .box .controlButton .left .icon-img,.content .controlButton .left .icon-img[data-v-080eb564]{width:calc(310 * 100 / var(--base-rpx) * 1vmin)!important;height:calc(82 * 100 / var(--base-rpx) * 1vmin)!important;object-fit:contain!important;opacity:1!important}
 .content .box .controlButton .center,.content .controlButton .center[data-v-080eb564]{width:calc(690 * 100 / var(--base-rpx) * 1vmin)!important;height:calc(96 * 100 / var(--base-rpx) * 1vmin)!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:calc(18 * 100 / var(--base-rpx) * 1vmin)!important;background:transparent!important;border:0!important;box-shadow:none!important}
 .content .box .controlButton .center:before{content:"";width:calc(190 * 100 / var(--base-rpx) * 1vmin);height:calc(60 * 100 / var(--base-rpx) * 1vmin);background:url(/static/battery_icon.png) center/contain no-repeat;order:7;pointer-events:none}
 .content .box .controlButton .center:after{content:"";width:calc(198 * 100 / var(--base-rpx) * 1vmin);height:calc(58 * 100 / var(--base-rpx) * 1vmin);background:url(/static/status_connected.png) center/contain no-repeat;order:-2;pointer-events:none}
@@ -179,7 +184,7 @@ body{background:#eaf4fb!important}
 .content .icon,.content .icon2,.content .icon[data-v-080eb564],.content .icon2[data-v-080eb564]{width:calc(86 * 100 / var(--base-rpx) * 1vmin)!important;height:calc(86 * 100 / var(--base-rpx) * 1vmin)!important;border-radius:calc(18 * 100 / var(--base-rpx) * 1vmin)!important}
 .content .totalControl,.content .totalControl[data-v-080eb564]{position:absolute!important;left:calc(30 * 100 / var(--base-rpx) * 1vmin)!important;right:calc(30 * 100 / var(--base-rpx) * 1vmin)!important;top:calc(150 * 100 / var(--base-rpx) * 1vmin)!important;bottom:calc(112 * 100 / var(--base-rpx) * 1vmin)!important;height:auto!important;z-index:4!important}
 .content .totalControl:before{content:"";position:fixed;left:31vw;right:31vw;top:21vh;bottom:15vh;background:url(/static/bgc3.png) center/contain no-repeat;z-index:1;pointer-events:none}
-.content .totalControl:after{content:"DRIVE SMALLER FURTHER";position:fixed;left:39vw;top:21vh;color:#111925;font-size:calc(28 * 100 / var(--base-rpx) * 1vmin);font-weight:900;font-style:italic;letter-spacing:0;z-index:2;pointer-events:none}
+.content .totalControl:after{display:none!important}
 .controlArea{position:relative!important;height:100%!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
 .controlArea:before{content:"";position:absolute;left:21.5vw;right:21.5vw;top:4.5vmin;bottom:7vmin;background:url(/static/bgc3.png) center 56%/contain no-repeat;opacity:1;pointer-events:none;z-index:0}
 .controlArea:after{content:"MICRO RC DRIFT CAR";position:absolute;left:42vw;top:7.2vmin;color:#526276;font-size:calc(16 * 100 / var(--base-rpx) * 1vmin);font-weight:700;letter-spacing:.45em;z-index:2;pointer-events:none}
@@ -217,6 +222,9 @@ css = css.trimEnd() + "\n" + microDriftCss.trimStart();
 writeIfChanged(cssPath, css);
 
 let viewBundle = read(viewBundlePath);
+viewBundle = viewBundle.replace(/remote",{attrs:{ble_on:t\.ble_on,/g, 'remote",{attrs:{is4Chan:!0,ble_on:t.ble_on,');
+viewBundle = viewBundle.replace(/style:t\._\$s\(1,"s",t\.is4Chan\?"":"justify-content:center;align-items: center;"\)/g, 'style:t._$s(1,"s","")');
+viewBundle = viewBundle.replace(/value:t\._\$s\(5,"v-show",t\.is4Chan\),expression:"_\$s\(5,'v-show',is4Chan\)"/g, 'value:!0,expression:"true"');
 const appViewCss = "/* micro-drift-appview-v1 */" + compactCss(microDriftCss.replace(styleMarker, "")) + "/* /micro-drift-appview-v1 */";
 viewBundle = replaceAppViewBlock(viewBundle, appViewCss);
 writeIfChanged(viewBundlePath, viewBundle);

@@ -530,6 +530,7 @@ New-SmallButton "btn_exchange-1.png" "exchange" "Swap" $true
 New-SmallButton "btn_exchange.png" "exchange" "Swap" $false
 New-SmallButton "cn.png" "remote" "EN" $false
 
+Copy-Item -LiteralPath (Join-Path $static "logo.png") -Destination (Join-Path $static "back.png") -Force
 Copy-Item -LiteralPath (Join-Path $static "bg_ud.png") -Destination (Join-Path $static "btn_ud.png") -Force
 Copy-Item -LiteralPath (Join-Path $static "bg_lr.png") -Destination (Join-Path $static "btn_lr.png") -Force
 
