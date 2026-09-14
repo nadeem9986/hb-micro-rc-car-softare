@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HB Drift Controller Prototype</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101114;
+      --panel: #191b20;
+      --panel-2: #202329;
+      --line: #343842;
+      --text: #f4f7fb;
+      --muted: #aab2bf;
+      --accent: #00c2a8;
+      --accent-2: #ffb000;
+      --danger: #ff4d5e;
+      --blue: #54a7ff;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.36);
+      --radius: 8px;
+      font-family: Inter, Roboto, "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(1180px, 100%);
+      min-height: calc(100vh - 32px);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+    }
+
+    .topbar {
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #181b20, #121317);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .title {
+      min-width: 0;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: clamp(22px, 4.4vw, 40px);
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .title p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: max-content;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .chip {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #111318;
+      padding: 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .chip strong {
+      color: var(--text);
+      font-weight: 700;
+      margin-left: 5px;
+    }
+
+    .chip.live {
+      border-color: rgba(0, 194, 168, 0.45);
+      color: #bbfff4;
+      background: rgba(0, 194, 168, 0.1);
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: minmax(300px, 1fr) minmax(280px, 440px);
+      gap: 14px;
+      min-height: 0;
+    }
+
+    .stage,
+    .side {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      padding: 16px;
+      gap: 14px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel-2);
+      padding: 12px;
+      min-height: 72px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(18px, 3.2vw, 28px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .cockpit {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(220px, 0.72fr);
+      gap: 14px;
+      align-items: stretch;
+      min-height: 420px;
+    }
+
+    .drive-pad,
+    .servo-pad {
+      display: grid;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .drive-pad {
+      grid-template:
+        ". forward ." 1fr
+        "left stop right" 1fr
+        ". reverse ." 1fr / 1fr 1fr 1fr;
+    }
+
+    .servo-pad {
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .panel-title {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .servo-controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .control {
+      min-height: 112px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #242832;
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: clamp(18px, 2.6vw, 30px);
+      font-weight: 800;
+      letter-spacing: 0;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+      touch-action: none;
+    }
+
+    .control small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .control:active,
+    .control.active {
+      transform: translateY(2px) scale(0.99);
+      border-color: currentColor;
+    }
+
+    .control.forward {
+      grid-area: forward;
+      background: linear-gradient(180deg, rgba(0, 194, 168, 0.28), #242832);
+      color: #bffdf3;
+    }
+
+    .control.reverse {
+      grid-area: reverse;
+      background: linear-gradient(180deg, rgba(84, 167, 255, 0.24), #242832);
+      color: #cde6ff;
+    }
+
+    .control.left {
+      grid-area: left;
+      color: #ffe0a1;
+    }
+
+    .control.right {
+      grid-area: right;
+      color: #ffe0a1;
+    }
+
+    .control.stop {
+      grid-area: stop;
+      background: linear-gradient(180deg, rgba(255, 77, 94, 0.28), #2b2428);
+      color: #ffd3d8;
+    }
+
+    .control.servo {
+      min-height: 92px;
+      background: #202935;
+      color: #d8eaff;
+    }
+
+    .control.center {
+      background: rgba(0, 194, 168, 0.14);
+      color: #d8fff8;
+    }
+
+    .side {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .endpoint-box {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: var(--panel-2);
+    }
+
+    .endpoint-box label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .endpoint-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .endpoint-row input {
+      min-width: 0;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #111318;
+      color: var(--text);
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .endpoint-row button,
+    .mode button {
+      height: 44px;
+      border-radius: var(--radius);
+      background: var(--accent);
+      color: #061816;
+      padding: 0 14px;
+      font-weight: 800;
+    }
+
+    .mode {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mode button {
+      background: #252a32;
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+
+    .mode button.active {
+      color: #101114;
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+    }
+
+    .log {
+      min-height: 180px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #0e1014;
+      padding: 12px;
+      font-family: Consolas, "Cascadia Mono", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #c8d0dc;
+    }
+
+    .log div {
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .footer button {
+      min-height: 54px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #171a1f;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 10px;
+      }
+
+      .app {
+        min-height: calc(100vh - 20px);
+      }
+
+      .topbar,
+      .main,
+      .cockpit {
+        grid-template-columns: 1fr;
+      }
+
+      .status {
+        grid-auto-flow: row;
+        grid-auto-columns: initial;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .chip {
+        min-width: 0;
+      }
+
+      .cockpit {
+        min-height: 0;
+      }
+
+      .drive-pad {
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .metrics,
+      .footer,
+      .status {
+        grid-template-columns: 1fr;
+      }
+
+      .drive-pad {
+        min-height: 330px;
+      }
+
+      .control {
+        min-height: 94px;
+      }
+
+      .endpoint-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" aria-label="HB drift controller prototype">
+    <header class="topbar">
+      <div class="title">
+        <h1>HB Drift Controller</h1>
+        <p>Full-throttle drift car control surface</p>
+      </div>
+      <div class="status" aria-label="controller status">
+        <span class="chip live">Mode <strong id="modeLabel">Full</strong></span>
+        <span class="chip">Target <strong>HB TOYS64</strong></span>
+        <span class="chip">Link <strong id="linkLabel">Prototype</strong></span>
+      </div>
+    </header>
+
+    <section class="main">
+      <section class="stage" aria-label="drive controls">
+        <div class="metrics">
+          <div class="metric">
+            <span>Throttle</span>
+            <strong id="throttleValue">100%</strong>
+          </div>
+          <div class="metric">
+            <span>Steering</span>
+            <strong id="steeringValue">Center</strong>
+          </div>
+          <div class="metric">
+            <span>Command</span>
+            <strong id="commandValue">Stop</strong>
+          </div>
+        </div>
+
+        <div class="cockpit">
+          <div class="drive-pad">
+            <button class="control forward" data-command="/forward" data-name="Forward">
+              <span>Forward<small>Full throttle</small></span>
+            </button>
+            <button class="control left" data-command="/left" data-name="Left">
+              <span>Left<small>Spin turn</small></span>
+            </button>
+            <button class="control stop" data-command="/stop" data-name="Stop">
+              <span>Stop<small>Neutral</small></span>
+            </button>
+            <button class="control right" data-command="/right" data-name="Right">
+              <span>Right<small>Spin turn</small></span>
+            </button>
+            <button class="control reverse" data-command="/back" data-name="Reverse">
+              <span>Reverse<small>Full throttle</small></span>
+            </button>
+          </div>
+
+          <div class="servo-pad">
+            <p class="panel-title">Steering Servo</p>
+            <div class="servo-controls">
+              <button class="control servo" data-command="/servo_left" data-name="Servo Left">
+                <span>Servo Left<small>45 degrees</small></span>
+              </button>
+              <button class="control servo center" data-command="/servo_center" data-name="Servo Center">
+                <span>Center<small>90 degrees</small></span>
+              </button>
+              <button class="control servo" data-command="/servo_right" data-name="Servo Right">
+                <span>Servo Right<small>135 degrees</small></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side" aria-label="connection and command log">
+        <section class="endpoint-box">
+          <label for="endpoint">Controller endpoint</label>
+          <div class="endpoint-row">
+            <input id="endpoint" value="http://192.168.4.1" inputmode="url" spellcheck="false">
+            <button id="pingButton" type="button">Ping</button>
+          </div>
+        </section>
+
+        <section class="endpoint-box">
+          <label>Drive profile</label>
+          <div class="mode" role="group" aria-label="drive profile">
+            <button type="button" data-mode="Low">Low</button>
+            <button type="button" data-mode="Medium">Medium</button>
+            <button class="active" type="button" data-mode="Full">Full</button>
+          </div>
+        </section>
+
+        <section class="endpoint-box">
+          <label>Command log</label>
+          <div class="log" id="log" aria-live="polite"></div>
+        </section>
+      </aside>
+    </section>
+
+    <footer class="footer" aria-label="auxiliary controls">
+      <button type="button" data-command="/stop" data-name="Emergency Stop">Emergency Stop</button>
+      <button type="button" data-command="/servo_center" data-name="Steering Reset">Steering Reset</button>
+      <button type="button" data-command="/forward" data-name="Launch">Launch</button>
+      <button type="button" data-command="/back" data-name="Brake Reverse">Brake Reverse</button>
+    </footer>
+  </main>
+
+  <script>
+    const logEl = document.querySelector("#log");
+    const endpointEl = document.querySelector("#endpoint");
+    const throttleValue = document.querySelector("#throttleValue");
+    const steeringValue = document.querySelector("#steeringValue");
+    const commandValue = document.querySelector("#commandValue");
+    const linkLabel = document.querySelector("#linkLabel");
+    const modeLabel = document.querySelector("#modeLabel");
+    const controls = [...document.querySelectorAll("[data-command]")];
+    const modeButtons = [...document.querySelectorAll("[data-mode]")];
+
+    let mode = "Full";
+
+    function stamp() {
+      return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+
+    function addLog(message) {
+      const line = document.createElement("div");
+      line.textContent = `${stamp()}  ${message}`;
+      logEl.prepend(line);
+      while (logEl.children.length > 40) {
+        logEl.lastElementChild.remove();
+      }
+    }
+
+    function updateReadout(name, path) {
+      commandValue.textContent = name;
+      throttleValue.textContent = path === "/stop" || path.startsWith("/servo_") ? "0%" : "100%";
+
+      if (path === "/servo_left" || path === "/left") steeringValue.textContent = "Left";
+      if (path === "/servo_center" || path === "/stop") steeringValue.textContent = "Center";
+      if (path === "/servo_right" || path === "/right") steeringValue.textContent = "Right";
+    }
+
+    async function sendCommand(path, name, button) {
+      const base = endpointEl.value.trim().replace(/\/$/, "");
+      const target = `${base}${path}`;
+
+      controls.forEach((control) => control.classList.remove("active"));
+      if (button) button.classList.add("active");
+
+      updateReadout(name, path);
+      addLog(`${name} -> ${path}`);
+
+      try {
+        const response = await fetch(target, { method: "GET", mode: "no-cors", cache: "no-store" });
+        linkLabel.textContent = response ? "Sent" : "Sent";
+      } catch (error) {
+        linkLabel.textContent = "Preview";
+        addLog(`Preview only -> ${target}`);
+      }
+
+      window.setTimeout(() => {
+        if (button) button.classList.remove("active");
+      }, 220);
+    }
+
+    function bindHoldControl(button) {
+      const path = button.dataset.command;
+      const name = button.dataset.name;
+      let pointerDown = false;
+
+      button.addEventListener("pointerdown", (event) => {
+        pointerDown = true;
+        button.setPointerCapture(event.pointerId);
+        sendCommand(path, name, button);
+      });
+
+      button.addEventListener("pointerup", () => {
+        if (!pointerDown) return;
+        pointerDown = false;
+        if (["/forward", "/back", "/left", "/right"].includes(path)) {
+          sendCommand("/stop", "Stop", document.querySelector('[data-command="/stop"]'));
+        }
+      });
+
+      button.addEventListener("pointercancel", () => {
+        pointerDown = false;
+        if (["/forward", "/back", "/left", "/right"].includes(path)) {
+          sendCommand("/stop", "Stop", document.querySelector('[data-command="/stop"]'));
+        }
+      });
+
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+      });
+    }
+
+    controls.forEach(bindHoldControl);
+
+    modeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        mode = button.dataset.mode;
+        modeButtons.forEach((item) => item.classList.toggle("active", item === button));
+        modeLabel.textContent = mode;
+        addLog(`Profile -> ${mode}`);
+      });
+    });
+
+    document.querySelector("#pingButton").addEventListener("click", () => {
+      sendCommand("/", "Ping", null);
+    });
+
+    addLog("Prototype ready");
+  </script>
+</body>
+</html>
