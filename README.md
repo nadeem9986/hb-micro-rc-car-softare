@@ -31,7 +31,6 @@ This repository keeps the working Bluetooth behavior from the original app, conv
 - `scripts/material_revamp.js` - applies the final JS/CSS/metadata patches.
 - `scripts/create_material_assets.ps1` - regenerates the final Material-style PNG assets.
 - `build/micro-rc-car-modern-signed.apk` - latest signed APK to install.
-- `build/index.html` - standalone browser UI prototype for the next drift-car controller screen.
 
 Local analysis output, screenshots, tool downloads, original APK copies, unsigned APKs, and signing keys are ignored by Git.
 
@@ -61,7 +60,3 @@ Use your own signing key for release builds. The local debug keystore is intenti
 adb install -r --no-incremental .\build\micro-rc-car-modern-signed.apk
 adb shell monkey -p com.JD.ZDFcar 1
 ```
-
-## Web Prototype
-
-Open `build/index.html` directly in a browser to review the next controller UI before it is ported into the APK. It is a standalone prototype and does not change the current APK.
